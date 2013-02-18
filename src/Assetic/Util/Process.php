@@ -118,7 +118,11 @@ class Process
             }
         };
 
-        $descriptors = array(array('pipe', 'r'), array('pipe', 'w'), array('pipe', 'w'));
+        if (!defined('PHP_WINDOWS_VERSION_MAJOR')) {
+            $descriptors = array(array('pipe', 'r'), array('pipe', 'w'), array('pipe', 'w'));
+        } else {
+            $descriptors = array(array('pipe', 'r'), array('pipe', 'w'));
+        }
 
         $process = proc_open($this->commandline, $descriptors, $pipes, $this->cwd, $this->env, $this->options);
 
